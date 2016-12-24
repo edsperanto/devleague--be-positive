@@ -58,6 +58,15 @@ BloodTransfusionRules = {
       [BloodType.O_NEG]
     ];
 
+    function checkInventoryFor(acceptType) {
+      for(let i = 0; i < acceptType.length; i++) {
+        if(blood_inventory[acceptType[i]] > 0) {
+          return acceptType[i];
+        }
+        return false;
+      }
+    }
+
   }
 
 };
