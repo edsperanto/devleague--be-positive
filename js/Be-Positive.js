@@ -46,54 +46,29 @@ BloodTransfusionRules = {
    */
 
   receive_patient : function (blood_inventory, patient) {
-    
-    let patientBlood = [
-      {
-        receiveType: BloodType.AB_POS,
-        acceptType: [BloodType.AB_POS, BloodType.AB_NEG, BloodType.A_POS, BloodType.A_NEG, BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG]
-      },
-      {
-        receiveType: BloodType.AB_NEG,
-        acceptType: [BloodType.AB_NEG, BloodType.A_NEG, BloodType.B_NEG, BloodType.O_NEG]
-      },
-      {
-        receiveType: BloodType.A_POS,
-        acceptType: [BloodType.A_POS, BloodType.A_NEG, BloodType.O_POS, BloodType.O_NEG]
-      },
-      {
-        receiveType: BloodType.A_NEG,
-        acceptType: [BloodType.A_NEG, BloodType.O_NEG]
-      },
-      {
-        receiveType: BloodType.B_POS,
-        acceptType: [BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG]
-      },
-      {
-        receiveType: BloodType.B_NEG,
-        acceptType: [BloodType.B_NEG, BloodType.O_NEG]
-      },
-      {
-        receiveType: BloodType.O_POS,
-        acceptType: [BloodType.O_POS, BloodType.O_NEG]
-      },
-      {
-        receiveType: BloodType.O_NEG,
-        acceptType: [BloodType.O_NEG]
-      }
-    ];
+
+
+    let acceptTypeFor = {
+      AB_POS: [BloodType.AB_POS, BloodType.AB_NEG, BloodType.A_POS, BloodType.A_NEG, BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG],
+      AB_NEG: [BloodType.AB_NEG, BloodType.A_NEG, BloodType.B_NEG, BloodType.O_NEG],
+      A_POS: [BloodType.A_POS, BloodType.A_NEG, BloodType.O_POS, BloodType.O_NEG],
+      A_NEG: [BloodType.A_NEG, BloodType.O_NEG],
+      B_POS: [BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG],
+      B_NEG: [BloodType.B_NEG, BloodType.O_NEG],
+      O_POS: [BloodType.O_POS, BloodType.O_NEG],
+      O_NEG: [BloodType.O_NEG]
+    }
 
     function checkInventoryFor(acceptType) {
       for(let i = 0; i < acceptType.length; i++) {
-        if(blood_inventory[acceptType[i]] > 0) { return acceptType[i]; }
+        if(blood_inventory[acceptType[i]] > 0) { 
+          return acceptType[i];
+        }
       }
       return false;
     }
 
-    for(let i = 0; i < patientBlood.length; i++) {
-      if(patient.blood_type === patientBlood[i].receiveType) {
-        return checkInventoryFor(patientBlood[i].acceptType);
-      }
-    }
+    return checkInventoryFor(acceptTypeFor[patient.blood_type]);
 
   }
 
