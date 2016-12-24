@@ -47,7 +47,16 @@ BloodTransfusionRules = {
 
   receive_patient : function (blood_inventory, patient) {
     
-    
+    let acceptType = [
+      [BloodType.AB_POS, BloodType.AB_NEG, BloodType.A_POS, BloodType.A_NEG, BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG],
+      [BloodType.AB_POS, BloodType.AB_NEG, BloodType.A_NEG, BloodType.B_NEG, BloodType.O_NEG],
+      [BloodType.A_POS, BloodType.A_NEG, BloodType.O_POS, BloodType.O_NEG],
+      [BloodType.A_NEG, BloodType.O_NEG],
+      [BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG],
+      [BloodType.B_NEG, BloodType.O_NEG],
+      [BloodType.O_POS, BloodType.O_NEG],
+      [BloodType.O_NEG]
+    ];
 
   }
 
