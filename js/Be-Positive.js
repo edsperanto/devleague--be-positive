@@ -11,6 +11,17 @@ BloodType = {
 
 };
 
+const acceptableBloodTypesFor = {
+  AB_POS: [BloodType.AB_POS, BloodType.AB_NEG, BloodType.A_POS, BloodType.A_NEG, BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG],
+  AB_NEG: [BloodType.AB_NEG, BloodType.A_NEG, BloodType.B_NEG, BloodType.O_NEG],
+  A_POS: [BloodType.A_POS, BloodType.A_NEG, BloodType.O_POS, BloodType.O_NEG],
+  A_NEG: [BloodType.A_NEG, BloodType.O_NEG],
+  B_POS: [BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG],
+  B_NEG: [BloodType.B_NEG, BloodType.O_NEG],
+  O_POS: [BloodType.O_POS, BloodType.O_NEG],
+  O_NEG: [BloodType.O_NEG]
+}
+
 BloodTransfusionRules = {
   
   /**
@@ -47,32 +58,21 @@ BloodTransfusionRules = {
 
   receive_patient : function (blood_inventory, patient) {
 
-    let acceptTypeFor = {
-      AB_POS: [BloodType.AB_POS, BloodType.AB_NEG, BloodType.A_POS, BloodType.A_NEG, BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG],
-      AB_NEG: [BloodType.AB_NEG, BloodType.A_NEG, BloodType.B_NEG, BloodType.O_NEG],
-      A_POS: [BloodType.A_POS, BloodType.A_NEG, BloodType.O_POS, BloodType.O_NEG],
-      A_NEG: [BloodType.A_NEG, BloodType.O_NEG],
-      B_POS: [BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG],
-      B_NEG: [BloodType.B_NEG, BloodType.O_NEG],
-      O_POS: [BloodType.O_POS, BloodType.O_NEG],
-      O_NEG: [BloodType.O_NEG]
-    }
-
-    function checkInventoryFor(acceptType) {
+    function checkInventoryFor(acceptableBloodTypes) {
       let mostInventory = {
         blood_type: false,
         amount: 0
       }
-      for(let i = 0; i < acceptType.length; i++) {
-        if(blood_inventory[acceptType[i]] > 0 && blood_inventory[acceptType[i]] > mostInventory.amount) { 
-          mostInventory.blood_type = acceptType[i];
-          mostInventory.amount = blood_inventory[acceptType[i]];
+      for(let i = 0; i < acceptableBloodTypes.length; i++) {
+        if(blood_inventory[acceptableBloodTypes[i]] > 0 && blood_inventory[acceptableBloodTypes[i]] > mostInventory.amount) { 
+          mostInventory.blood_type = acceptableBloodTypes[i];
+          mostInventory.amount = blood_inventory[acceptableBloodTypes[i]];
         }
       }
       return mostInventory.blood_type;
     }
 
-    return checkInventoryFor(acceptTypeFor[patient.blood_type]);
+    return checkInventoryFor(acceptableBloodTypesFor[patient.blood_type]);
 
   }
 
