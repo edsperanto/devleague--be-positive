@@ -47,7 +47,6 @@ BloodTransfusionRules = {
 
   receive_patient : function (blood_inventory, patient) {
 
-
     let acceptTypeFor = {
       AB_POS: [BloodType.AB_POS, BloodType.AB_NEG, BloodType.A_POS, BloodType.A_NEG, BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG],
       AB_NEG: [BloodType.AB_NEG, BloodType.A_NEG, BloodType.B_NEG, BloodType.O_NEG],
@@ -60,12 +59,17 @@ BloodTransfusionRules = {
     }
 
     function checkInventoryFor(acceptType) {
+      let mostInventory = {
+        blood_type: false,
+        amount: 0
+      }
       for(let i = 0; i < acceptType.length; i++) {
-        if(blood_inventory[acceptType[i]] > 0) { 
-          return acceptType[i];
+        if(blood_inventory[acceptType[i]] > 0 && blood_inventory[acceptType[i]] > mostInventory.amount) { 
+          mostInventory.blood_type = acceptType[i];
+          mostInventory.amount = blood_inventory[acceptType[i]];
         }
       }
-      return false;
+      return mostInventory.blood_type;
     }
 
     return checkInventoryFor(acceptTypeFor[patient.blood_type]);
