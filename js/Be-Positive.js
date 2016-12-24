@@ -47,9 +47,11 @@ BloodTransfusionRules = {
 
   receive_patient : function (blood_inventory, patient) {
     
+    let patientBloodType = [BloodType.AB_POS, BloodType.AB_NEG, BloodType.A_POS, BloodType.A_NEG, BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG];
+
     let acceptType = [
       [BloodType.AB_POS, BloodType.AB_NEG, BloodType.A_POS, BloodType.A_NEG, BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG],
-      [BloodType.AB_POS, BloodType.AB_NEG, BloodType.A_NEG, BloodType.B_NEG, BloodType.O_NEG],
+      [BloodType.AB_NEG, BloodType.A_NEG, BloodType.B_NEG, BloodType.O_NEG],
       [BloodType.A_POS, BloodType.A_NEG, BloodType.O_POS, BloodType.O_NEG],
       [BloodType.A_NEG, BloodType.O_NEG],
       [BloodType.B_POS, BloodType.B_NEG, BloodType.O_POS, BloodType.O_NEG],
@@ -60,39 +62,11 @@ BloodTransfusionRules = {
 
     function checkInventoryFor(acceptType) {
       for(let i = 0; i < acceptType.length; i++) {
-        if(blood_inventory[acceptType[i]] > 0) {
-          return acceptType[i];
-        }
-        return false;
+        return (blood_inventory[acceptType[i]] > 0) ? (acceptType[i]) : (false);
       }
     }
 
-    switch(patient.blood_type) {
-      case BloodType.AB_POS:
-        return checkInventoryFor(acceptType[0]);
-        break;
-      case BloodType.AB_NEG:
-        return checkInventoryFor(acceptType[1]);
-        break;
-      case BloodType.A_POS:
-        return checkInventoryFor(acceptType[2]);
-        break;
-      case BloodType.A_NEG:
-        return checkInventoryFor(acceptType[3]);
-        break;
-      case BloodType.B_POS:
-        return checkInventoryFor(acceptType[4]);
-        break;
-      case BloodType.B_NEG:
-        return checkInventoryFor(acceptType[5]);
-        break;
-      case BloodType.O_POS:
-        return checkInventoryFor(acceptType[6]);
-        break;
-      case BloodType.O_NEG:
-        return checkInventoryFor(acceptType[7]);
-        break;
-    }
+    return checkInventoryFor(acceptType[patientBloodType.indexOf(patient.blood_type)]);
 
   }
 
