@@ -63,8 +63,8 @@ BloodTransfusionRules = {
     function checkInventoryFor(acceptType) {
       for(let i = 0; i < acceptType.length; i++) {
         if(blood_inventory[acceptType[i]] > 0) { return acceptType[i]; }
-        return false;
       }
+      return false;
     }
 
     return checkInventoryFor(acceptType[patientBloodType.indexOf(patient.blood_type)]);
